@@ -40,3 +40,19 @@ OUT: None
 POST: Prompting the user to enter a phone number, the contact requested
 ******************************************************************************/
 void retrieveContact(FILE *filePtr);
+
+/************************************************************************************************
+checkPhoneNumber: checks a phone number string to see if it's valid or not
+IN: char *phoneNumber
+OUT: An integer indicating whether or not the phone number is good (non-zero for good, 0 for bad)
+POST: None
+************************************************************************************************/
+int checkPhoneNumber(char *phoneNumber);
+
+/***********************************************************************************************
+checkEmail: checks an email to see if it is valid or not
+IN: char *email
+OUT: An integer indicating whether or not the email is valid (non-zero for valid, 0 for invalid)
+POST: None
+***********************************************************************************************/
+int checkEmail(char *email);

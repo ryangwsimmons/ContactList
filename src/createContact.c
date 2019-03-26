@@ -25,6 +25,15 @@ void createContact(FILE *filePtr)
     /*Create variable to hold how much data has been written so far*/
     long writtenSoFar = 0;
 
+    /*Create a variable that determines whether or not the user has entered a last name*/
+    int entered = 0;
+
+    /*Create a variable that determines whether or not the phone number is good or bad*/
+    int pNBad;
+
+    /*Create a variable that determines whether or not the email is valid or not*/
+    int emailGood;
+
     /*Get first name*/
     printf("First Name: ");
     fgets(buffer, 1000, stdin);
@@ -38,6 +47,13 @@ void createContact(FILE *filePtr)
     /*Get last name*/
     printf("Last Name: ");
     fgets(buffer, 1000, stdin);
+
+    /*Check to see if a last name was entered, and set the entered variable accordingly*/
+    if (strcmp(buffer, "\n") != 0)
+    {
+        entered = 1;
+    }
+
     /*Allocate enough space for the string + null character, but NOT the trailing newline character*/
     lastName = malloc(sizeof(char) * strlen(buffer));
     /*Copy all characters except the trailing newline character to the malloc'd string*/
@@ -46,8 +62,14 @@ void createContact(FILE *filePtr)
     lastName[strlen(buffer) - 1] = '\0';
 
     /*Get company name*/
-    printf("Company Name: ");
-    fgets(buffer, 1000, stdin);
+    do
+    {
+        /*If the user enters nothing and they didn't enter a last name, repeat until they enter a company name*/
+        printf("Company Name: ");
+        fgets(buffer, 1000, stdin);
+        if (entered == 0 && strcmp(buffer, "\n") == 0)
+            printf("Please enter a company name, as a last name was not entered\n");
+    } while (entered == 0 && strcmp(buffer, "\n") == 0);
     /*Allocate enough space for the string + null character, but NOT the trailing newline character*/
     companyName = malloc(sizeof(char) * strlen(buffer));
     /*Copy all characters except the trailing newline character to the malloc'd string*/
@@ -61,13 +83,22 @@ void createContact(FILE *filePtr)
         /*Keep asking for phone number until user enters it*/
         printf("Phone Number (enter only numbers): ");
         fgets(buffer, 1000, stdin);
-    } while (strcmp(buffer, "\n") == 0);
+        pNBad = checkPhoneNumber(buffer);
+        if (pNBad == 0)
+            printf("Invalid phone number, please try again\n");
+    } while (pNBad == 0 || strcmp(buffer, "\n") == 0);
     /*Convert phone number in temp string to an integer and store it in the structure*/
     sscanf(buffer, "%ld", &record.phone_number);
 
     /*Get email*/
-    printf("Email: ");
-    fgets(buffer, 1000, stdin);
+    do
+    {
+        printf("Email: ");
+        fgets(buffer, 1000, stdin);
+        emailGood = checkEmail(buffer);
+        if (strcmp(buffer, "\n") != 0 && emailGood == 0)
+            printf("Invalid email, please try again\n");
+    } while (strcmp(buffer, "\n") != 0);
     /*Allocate enough space for the string + null character, but NOT the trailing newline character*/
     email = malloc(sizeof(char) * strlen(buffer));
     /*Copy all characters except the trailing newline character to the malloc'd string*/
