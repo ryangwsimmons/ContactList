@@ -17,6 +17,15 @@ struct contact {
     long next;
 };
 
+/*Structure for holding contact data, rather than positions; used for sorting contacts*/
+struct contactData{
+    unsigned long phone_number;
+    char *first_name;
+    char *last_name;
+    char *company_name;
+    char *email;
+};
+
 /************************************************
 openFile: opens a file
 IN: None
@@ -56,3 +65,35 @@ OUT: An integer indicating whether or not the email is valid (non-zero for valid
 POST: None
 ***********************************************************************************************/
 int checkEmail(char *email);
+
+/***************************************************************************************
+readDataToMemory: reads contact data from file into an array of contactData structures
+IN: FILE *filePtr
+OUT: An array containing contact data
+POST: None
+***************************************************************************************/
+char *readDataToMemory(FILE *filePtr);
+
+/***************************************
+sortContacts: sorts an array of contacts
+IN: struct contactData contacts[]
+OUT: None
+POST: None
+***************************************/
+void sortContacts(struct contactData contacts[]);
+
+/*************************************************************************************
+compareContacts: compares the names (either last name or company name) of two contacts
+IN: const void *a, const void *b
+OUT: less than 0 if a < b, 0 if a == b, greater than 0 if a > b
+POST: None
+*************************************************************************************/
+int compareContacts(const void *a, const void *b);
+
+/**************************************************************************************************************
+getNameFirstLetter: Retrieves the first letter of either the last name or company name for the contact provided
+IN: struct contactData contact
+OUT: A char containing the first letter of the contact's name
+POST: None
+**************************************************************************************************************/
+char getNameFirstLetter(struct contactData contact);

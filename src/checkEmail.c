@@ -1,7 +1,7 @@
 /*******createContact.c********
 Author: Ryan Simmons
 Course: CIS*2500
-Last Modified: March 26th, 2019
+Last Modified: March 29th, 2019
 ******************************/
 #include <stdio.h>
 #include <string.h>
@@ -25,13 +25,13 @@ int checkEmail(char *email)
         {
             /*If an @ is found, increase the counter*/
             ++atCount;
-            if (i != strlen(email) - 1)
+            if (i != strlen(email) - 1 && i != 0)
             {
                 /*If not at the end of the string, search for a .*/
                 for (j = i + 1; j < strlen(email); ++j)
                 {
                     /*If a . is found, and it's not the last character in the string, indicate that the string is good*/
-                    if (email[j] == '.' && j != strlen(email) - 1)
+                    if (email[j] == '.' && j != strlen(email) - 1 && email[j - 1] != '@')
                         emailGood = 1;
                 }
             }

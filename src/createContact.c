@@ -1,7 +1,7 @@
 /*******createContact.c********
 Author: Ryan Simmons
 Course: CIS*2500
-Last Modified: March 13th, 2019
+Last Modified: March 29th, 2019
 ******************************/
 #include <stdio.h>
 #include <stdlib.h>
@@ -98,7 +98,7 @@ void createContact(FILE *filePtr)
         emailGood = checkEmail(buffer);
         if (strcmp(buffer, "\n") != 0 && emailGood == 0)
             printf("Invalid email, please try again\n");
-    } while (strcmp(buffer, "\n") != 0);
+    } while (strcmp(buffer, "\n") != 0 && emailGood == 0);
     /*Allocate enough space for the string + null character, but NOT the trailing newline character*/
     email = malloc(sizeof(char) * strlen(buffer));
     /*Copy all characters except the trailing newline character to the malloc'd string*/
