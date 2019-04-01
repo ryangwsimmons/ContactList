@@ -68,19 +68,19 @@ int checkEmail(char *email);
 
 /***************************************************************************************
 readDataToMemory: reads contact data from file into an array of contactData structures
-IN: FILE *filePtr
+IN: FILE *filePtr, int *numElements
 OUT: An array containing contact data
 POST: None
 ***************************************************************************************/
-char *readDataToMemory(FILE *filePtr);
+struct contactData *readDataToMemory(FILE *filePtr, int *numElements);
 
 /***************************************
 sortContacts: sorts an array of contacts
-IN: struct contactData contacts[]
+IN: struct contactData contacts[], int numElements
 OUT: None
 POST: None
 ***************************************/
-void sortContacts(struct contactData contacts[]);
+void sortContacts(struct contactData contacts[], int numElements);
 
 /*************************************************************************************
 compareContacts: compares the names (either last name or company name) of two contacts

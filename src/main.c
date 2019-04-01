@@ -15,13 +15,16 @@ int main()
     char menuChoice[1000];
 
     /*Array for storing contacts from file*/
-    struct contactData *contactArray;
+    struct contactData *contactArray = NULL;
 
     /*Counting variable*/
     int i = 0;
 
     /*Integer to hold the contact number that the user wishes to look at*/
     int contactSelected;
+
+    /*Variable to hold the number of elements in the array*/
+    int numElements;
 
     /*Open the file*/
     FILE *filePtr = openFile();
@@ -35,23 +38,38 @@ int main()
         /*If the user is at the full contacts list*/
         if (strcmp(menuChoice, "R") == 0)
         {
-            contactArray = readDataToMemory(filePtr);
-            sortContacts(contactArray);
-            printf("Number of Contacts = %d\n", sizeof(contactArray) / sizeof(struct contactData));
+            if (contactArray != NULL)
+            {
+                for (i = 0; i < numElements; ++i)
+                {
+                    free(contactArray[i].first_name);
+                    free(contactArray[i].last_name);
+                    free(contactArray[i].company_name);
+                    free(contactArray[i].email);
+                }
+                free(contactArray);
+            }
+            i = 0;
+            contactArray = readDataToMemory(filePtr, &numElements);
+            sortContacts(contactArray, numElements);
+            printf("Number of Contacts = %d\n", numElements);
 
             /*Print the contacts*/
-            while (i < sizeof(contactArray) / sizeof(struct contactData))
+            while (i < numElements)
             {
-                if (i == 0 || getNameFirstLetter(contactArray[i]) != getNameFirstLetter(contactArray[i - 1]))
+                if (i == 0 || (getNameFirstLetter(contactArray[i]) != getNameFirstLetter(contactArray[i - 1])))
                 {
                     printf("%c\n", getNameFirstLetter(contactArray[i]));
                 }
                 printf("\t %d. %s\n", i + 1, (strcmp(contactArray[i].last_name, "") == 0) ? contactArray[i].company_name : contactArray[i].last_name);
+                ++i;
             }
+            i = 0;
 
             /*Prompt the user to input an action*/
             printf("Action: ");
             scanf("%s", menuChoice);
+            getchar();
         }
         /*If the user asks to look at a contact*/
         else if (isdigit(menuChoice[0]) != 0)
@@ -70,12 +88,31 @@ int main()
             /*Prompt the user to input an action*/
             printf("Action: ");
             scanf("%s", menuChoice);
+            getchar();
         }
         /*If the user wants to add a new contact*/
         else if (strcmp(menuChoice, "A") == 0)
         {
             createContact(filePtr);
+            /*Return to full contact list when creating contact is done*/
+            strcpy(menuChoice, "R");
         }
     } while (strcmp(menuChoice, "X") != 0);
-    
+
+    /*Free values in contact array*/
+    for (i = 0; i < numElements; ++i)
+    {
+        free(contactArray[i].first_name);
+        free(contactArray[i].last_name);
+        free(contactArray[i].company_name);
+        free(contactArray[i].email);
+    }
+
+    /*Free the array itself*/
+    free(contactArray);
+
+    /*Close the file*/
+    fclose(filePtr);
+
+    return 0;
 }

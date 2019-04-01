@@ -1,8 +1,8 @@
 CC=gcc
-CFLAGS=-Wall -ansi
+CFLAGS=-Wall -ansi -g
 
 contactList: main.o checkEmail.o checkPhoneNumber.o createContact.o openFile.o retrieveContact.o readDataToMemory.o sortContacts.o getNameFirstLetter.o
-	$(CC) $(CFLAGS) -o bin/contactList bin/main.o bin/checkEmail.o bin/checkPhoneNumber.o bin/createContact.o bin/openFile.o bin/retrieveContact.o
+	$(CC) $(CFLAGS) -o bin/contactList bin/main.o bin/checkEmail.o bin/checkPhoneNumber.o bin/createContact.o bin/openFile.o bin/retrieveContact.o bin/readDataToMemory.o bin/sortContacts.o bin/getNameFirstLetter.o
 
 main.o: src/main.c includes/contactList.h
 	$(CC) $(CFLAGS) -c src/main.c -o bin/main.o

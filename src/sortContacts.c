@@ -8,9 +8,9 @@ Last Modified: March 29th, 2019
 #include <string.h>
 #include "../includes/contactList.h"
 
-void sortContacts(struct contactData contacts[])
+void sortContacts(struct contactData *contacts, int numElements)
 {
-    qsort(contacts, sizeof(contacts) / sizeof(struct contactData), sizeof(struct contactData), compareContacts);
+    qsort(contacts, numElements, sizeof(struct contactData), compareContacts);
 }
 
 int compareContacts(const void *a, const void *b)
@@ -19,31 +19,35 @@ int compareContacts(const void *a, const void *b)
     char *str1;
     char *str2;
 
+    /*structs to hold the values of a and b*/
+    struct contactData *contactA = (struct contactData *)a;
+    struct contactData *contactB = (struct contactData *)b;
+
     /*Integer to store comparison between str1 and str2*/
     int compareValue;
 
     /*Check to see if a has a last name, and assign a value to str1 accordingly*/
-    if (strcmp(((struct contactData *)a)->last_name, "") == 0)
+    if (strcmp(contactA->last_name, "") == 0)
     {
-        str1 = malloc(sizeof(char) * (strlen(((struct contactData *)a)->company_name) + 1));
-        strcpy(str1, ((struct contactData *)a)->company_name);
+        str1 = malloc(sizeof(char) * (strlen(contactA->company_name) + 1));
+        strcpy(str1, contactA->company_name);
     }
     else
     {
-        str1 = malloc(sizeof(char) * (strlen(((struct contactData *)a)->last_name) + 1));
-        strcpy(str1, ((struct contactData *)a)->last_name);
+        str1 = malloc(sizeof(char) * (strlen(contactA->last_name) + 1));
+        strcpy(str1, contactA->last_name);
     }
     
     /*Check to see if b has a last name, and assign a value to str2 accordingly*/
-    if (strcmp(((struct contactData *)b)->last_name, "") == 0)
+    if (strcmp(contactB->last_name, "") == 0)
     {
-        str2 = malloc(sizeof(char) * (strlen(((struct contactData *)b)->company_name) + 1));
-        strcpy(str2, ((struct contactData *)b)->company_name);
+        str2 = malloc(sizeof(char) * (strlen(contactB->company_name) + 1));
+        strcpy(str2, contactB->company_name);
     }
     else
     {
-        str2 = malloc(sizeof(char) * (strlen(((struct contactData *)b)->last_name) + 1));
-        strcpy(str2, ((struct contactData *)b)->last_name);
+        str2 = malloc(sizeof(char) * (strlen(contactB->last_name) + 1));
+        strcpy(str2, contactB->last_name);
     }
 
     /*Store comparison value in compareValue*/
