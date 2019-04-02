@@ -10,7 +10,7 @@ Last Modified: March 29th, 2019
 
 struct contactData *readDataToMemory(FILE *filePtr, int *numElements)
 {
-    /*Temporary structure used to read in data*/
+    /*Temporary structure used to read in data and set all members equal to null*/
     struct contact tempStruct;
 
     /*Structure array for holding data*/
@@ -147,6 +147,8 @@ struct contactData *readDataToMemory(FILE *filePtr, int *numElements)
                 contactArray[i].email = malloc(sizeof(char));
                 strcpy(contactArray[i].email, "");
             }
+
+            contactArray[i].delete = 0;
 
             /*Seek to the position of the next contact, and start the process all over again for the next contact in the file*/
             fseek(filePtr, tempStruct.next, SEEK_SET);

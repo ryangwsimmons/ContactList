@@ -106,6 +106,27 @@ void createContact(FILE *filePtr)
     /*strncpy() does not automatically append null character, so add it on manually*/
     email[strlen(buffer) - 1] = '\0';
 
+    /*Confirm if the user wants to add the new contact*/
+    do
+    {
+        printf("Action: ");
+        scanf("%s", buffer);
+        if (strcmp(buffer, "R") != 0 && strcmp(buffer, "S") != 0)
+            printf("Invalid choice, please try again\n");
+    } while (strcmp(buffer, "R") != 0 && strcmp(buffer, "S") != 0);
+    getchar();
+
+    /*If the user wants to discard changes*/
+    if (strcmp(buffer, "R") == 0)
+    {
+        /*Free dynamically allocated pointers*/
+        free(firstName);
+        free(lastName);
+        free(companyName);
+        free(email);
+        return;
+    }
+
     /*Calculate positions of each variable and write them to the structure*/
     fseek(filePtr, 0, SEEK_END);
     writtenSoFar = ftell(filePtr);

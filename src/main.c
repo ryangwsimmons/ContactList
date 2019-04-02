@@ -61,14 +61,19 @@ int main()
                 {
                     printf("%c\n", getNameFirstLetter(contactArray[i]));
                 }
-                printf("\t %d. %s\n", i + 1, (strcmp(contactArray[i].last_name, "") == 0) ? contactArray[i].company_name : contactArray[i].last_name);
+                printf("\t %d. %s %s\n", i + 1, (strcmp(contactArray[i].last_name, "") == 0) ? contactArray[i].company_name : contactArray[i].first_name, (strcmp(contactArray[i].last_name, "") == 0) ? "" : contactArray[i].last_name);
                 ++i;
             }
             i = 0;
 
             /*Prompt the user to input an action*/
-            printf("Action: ");
-            scanf("%s", menuChoice);
+            do
+            {
+                printf("Action: ");
+                scanf("%s", menuChoice);
+                if (strcmp(menuChoice, "A") != 0 && strcmp(menuChoice, "X") != 0 && isdigit(menuChoice[0]) == 0)
+                    printf("Invalid choice, please try again\n");
+            } while (strcmp(menuChoice, "A") != 0 && strcmp(menuChoice, "X") != 0 && isdigit(menuChoice[0]) == 0);
             getchar();
         }
         /*If the user asks to look at a contact*/
@@ -76,25 +81,50 @@ int main()
         {
             /*Get the integer for the contact selected from the string*/
             sscanf(menuChoice, "%d", &contactSelected);
-
-            /*Print out the contact details*/
-            printf("Contact #%d\n", contactSelected);
-            printf("First Name: %s\n", contactArray[contactSelected - 1].first_name);
-            printf("Last Name: %s\n", contactArray[contactSelected - 1].last_name);
-            printf("Company Name: %s\n", contactArray[contactSelected - 1].company_name);
-            printf("Phone Number: %ld\n", contactArray[contactSelected - 1].phone_number);
-            printf("Email: %s\n", contactArray[contactSelected - 1].email);
-            
-            /*Prompt the user to input an action*/
-            printf("Action: ");
-            scanf("%s", menuChoice);
-            getchar();
+            if (contactSelected > numElements)
+            {
+                printf("Invalid contact number, please try again\n");
+                strcpy(menuChoice, "R");
+            }
+            else
+            {
+                /*Print out the contact details*/
+                printf("Contact #%d\n", contactSelected);
+                printf("First Name: %s\n", contactArray[contactSelected - 1].first_name);
+                printf("Last Name: %s\n", contactArray[contactSelected - 1].last_name);
+                printf("Company Name: %s\n", contactArray[contactSelected - 1].company_name);
+                printf("Phone Number: %ld\n", contactArray[contactSelected - 1].phone_number);
+                printf("Email: %s\n", contactArray[contactSelected - 1].email);
+                
+                /*Prompt the user to input an action*/
+                do
+                {
+                    printf("Action: ");
+                    scanf("%s", menuChoice);
+                    if (strcmp(menuChoice, "R") != 0 && strcmp(menuChoice, "E") != 0 && strcmp(menuChoice, "D") != 0)
+                        printf("Invalid choice, please try again\n");
+                } while (strcmp(menuChoice, "R") != 0 && strcmp(menuChoice, "E") != 0 && strcmp(menuChoice, "D") != 0);
+                getchar();
+            }
         }
         /*If the user wants to add a new contact*/
         else if (strcmp(menuChoice, "A") == 0)
         {
             createContact(filePtr);
             /*Return to full contact list when creating contact is done*/
+            strcpy(menuChoice, "R");
+        }
+        /*If the user wants to edit a contact*/
+        else if (strcmp(menuChoice, "E") == 0)
+        {
+            editContact(contactArray, &filePtr, contactSelected - 1, numElements);
+            /*Return to the full contact list when editing contact is done*/
+            strcpy(menuChoice, "R");
+        }
+        else if (strcmp(menuChoice, "D") == 0)
+        {
+            deleteContact(contactArray, &filePtr, contactSelected - 1, numElements);
+            /*Return to the full contact list when deletion is done*/
             strcpy(menuChoice, "R");
         }
     } while (strcmp(menuChoice, "X") != 0);

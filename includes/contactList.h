@@ -24,6 +24,7 @@ struct contactData{
     char *last_name;
     char *company_name;
     char *email;
+    int delete;
 };
 
 /************************************************
@@ -41,14 +42,6 @@ OUT: None
 POST: Prompting the user for the various values of the struct
 ************************************************************/
 void createContact(FILE *filePtr);
-
-/******************************************************************************
-retrieveContact: retrieves a contact from the database
-IN: unsigned long phoneNumber, struct contact *database
-OUT: None
-POST: Prompting the user to enter a phone number, the contact requested
-******************************************************************************/
-void retrieveContact(FILE *filePtr);
 
 /************************************************************************************************
 checkPhoneNumber: checks a phone number string to see if it's valid or not
@@ -97,3 +90,19 @@ OUT: A char containing the first letter of the contact's name
 POST: None
 **************************************************************************************************************/
 char getNameFirstLetter(struct contactData contact);
+
+/*****************************************************************************************
+editContact: edits an existing contact in the file
+IN: struct contactData *contactArray, FILE **filePtrPtr, int contactNumber, int numElements
+OUT: None
+POST: Prompting users for new contact information
+*****************************************************************************************/
+void editContact(struct contactData *contactArray, FILE **filePtrPtr, int contactNumber, int numElements);
+
+/**************************************************************************************
+deleteContact: deletes a contact from the list
+IN: struct contactData *contactArray, FILE **filePtrPtr, int contactNumber, int numElements
+OUT: None
+POST: None
+**************************************************************************************/
+void deleteContact(struct contactData *contactArray, FILE **filePtrPtr, int contactNumber, int numElements);
