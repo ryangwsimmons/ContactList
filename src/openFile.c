@@ -1,6 +1,5 @@
 /*********openFile.c***********
 Author: Ryan Simmons
-Course: CIS*2500
 Last Modified: March 13th, 2019
 ******************************/
 #include <stdio.h>
