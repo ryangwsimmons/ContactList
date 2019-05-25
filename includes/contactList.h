@@ -1,6 +1,5 @@
 /*********contactList.h*******
 Author: Ryan Simmons
-Course: CIS*2500
 Last Modified: March 9th, 2019
 *****************************/
 /*Includes necessary for function prototypes*/
