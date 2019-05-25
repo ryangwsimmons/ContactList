@@ -1,2 +1,2 @@
-# CIS2500Assignment4
-The fourth assignment in CIS 2500
+# ContactList
+A simple program written in C that stores contacts in a binary file. Using this program, you can also edit and delete contacts from the file.
