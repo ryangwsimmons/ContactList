@@ -1,6 +1,5 @@
 /********editContact.c*********
 Author: Ryan Simmons
-Course: CIS*2500
 Last Modified: March 29th, 2019
 ******************************/
 #include <stdio.h>
